@@ -1,0 +1,8 @@
+[project]
+name = "criu_api"
+version = "0.1.5"
+description = "Python API for CRIU"
+authors = [
+    {name = "Andrii Herheliuk"}
+]
+dependencies = ["psutil"]
