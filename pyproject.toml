@@ -1,0 +1,12 @@
+[tool.setuptools]
+packages = ["criu_api"]
+
+[project]
+name = "criu_api"
+version = "0.2.2"
+description = "Python API for CRIU"
+authors = [
+    {name = "Andrii Herheliuk"}
+]
+dependencies = ["psutil"]
+license = { text = "MIT" }

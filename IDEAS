@@ -1,0 +1,7 @@
+? restore with stdout history
+
+```bash
+# mkdir ./criu-python-api/ && cd ./criu-python-api/
+git clone https://github.com/herheliuk/criu-python-api ./
+source ./install.sh
+```

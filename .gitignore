@@ -1,0 +1,10 @@
+**/__pycache__/
+**/env/
+**/.DS_Store
+**/criu_service.socket
+
+build/
+*.egg-info
+
+./criu/
+./criu_dumps/
