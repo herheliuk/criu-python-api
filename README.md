@@ -60,17 +60,12 @@ criu_api.restore(
 )
 ```
 
-## Install CRIU
+## Install CRIU (Ubuntu/Debian)
 
 ```bash
-sudo apt install build-essential git pkg-config \
-    libprotobuf-dev libprotobuf-c-dev protobuf-c-compiler \
-    protobuf-compiler python3-protobuf uuid-dev \
-    libbsd-dev libcap-dev libnl-3-dev libnet1-dev \
-    libaio-dev libgnutls28-dev libdrm-dev iproute2 \
-    libnftables-dev asciidoc xmlto
-
 git clone https://github.com/checkpoint-restore/criu ./criu/
+
+sudo bash ./criu/contrib/dependencies/apt-packages.sh
 
 sudo make -C ./criu/ install
 
