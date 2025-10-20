@@ -15,7 +15,6 @@ cd "$script_dir"
 git clone https://github.com/checkpoint-restore/criu ./criu/
 
 sudo bash ./criu/contrib/dependencies/apt-packages.sh
-
 sudo make -C ./criu/ install
 
 pip install ./criu/lib/ ./
