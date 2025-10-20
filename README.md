@@ -15,7 +15,7 @@ pip install git+https://github.com/herheliuk/criu-python-api
 main terminal
 ```bash
 # source env.sh
-sudo $(which python) ./examples/example_usage.py
+sudo $(which python) ./examples/cli_knockdown.py
 ```
 
 secondary terminal
@@ -32,7 +32,7 @@ criu_api.set_dumps_dir("/tmp/criu_api_dumps/")
 
 Removes dumps directory and all its contents!
 ```python
-criu_api.clean_up()
+criu_api.wipe()
 ```
 
 Sets the target process ID.

@@ -102,7 +102,7 @@ def ensure_dumps_dir(func):
     return wrapper
 
 @ensure_dumps_dir
-def clean_up(images_dir: Path = None):
+def wipe(images_dir: Path = None):
     '''Removes the dump or dumps directory and all its contents!'''
     global _last_dump_number
     target_dir = images_dir or _dumps_directory
@@ -174,7 +174,7 @@ def _get_pid_from_dump(dump_number: int) -> int:
 def _remove_dumps_from(dump_number: int):
     '''Removes the specified dump and all dumps after it, used to overwrite the history.'''
     for _dump_number in range(dump_number, _last_dump_number + 1):
-        clean_up(_dumps_directory / str(_dump_number))
+        wipe(_dumps_directory / str(_dump_number))
 
 @ensure_dumps_dir
 def dump(dump_number: int = None, leave_running = True, ensure_full_dump = False, allow_overwrite = False, additional_args: list[str] = None):
