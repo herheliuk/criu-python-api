@@ -7,7 +7,7 @@ print(f'pid {os_getpid()}\n')
 
 i = 0
     
-while i < 100:
+while i < 60:
     i += 1
     print(i, end=' ', flush=True)
     time_sleep(1)
