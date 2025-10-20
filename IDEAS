@@ -1,4 +1,4 @@
-? restore with stdout history
+> restore with stdout history
 
 ```bash
 # mkdir ./criu-python-api/ && cd ./criu-python-api/

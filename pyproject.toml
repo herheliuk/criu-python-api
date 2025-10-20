@@ -3,7 +3,7 @@ packages = ["criu_api"]
 
 [project]
 name = "criu_api"
-version = "0.2.2"
+version = "0.2.3"
 description = "Python API for CRIU"
 authors = [
     {name = "Andrii Herheliuk"}

@@ -6,5 +6,5 @@
 build/
 *.egg-info
 
-./criu/
-./criu_dumps/
+criu/
+criu_dumps/
