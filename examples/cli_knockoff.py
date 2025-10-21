@@ -17,19 +17,19 @@ COMMANDS = [
     'dump_stop',
     'full_dump',
     'dump_anyway',
+    'service_dump',
     'restore',
     'kill_restore',
+    'self_restore',
     'info',
     'clear',
-    'quit'
+    'quit',
+    'self'
 ]
 
 def completer(text, state):
     options = [cmd for cmd in COMMANDS if cmd.startswith(text)]
     return options[state] if state < len(options) else None
-
-if input('criu.wipe() ?'):
-    criu.wipe()
 
 readline.set_completer(completer)
 readline.parse_and_bind('tab: complete')
@@ -53,9 +53,12 @@ try:
         for pid in pids:
             _input_split.remove(str(pid))
     
-        if 'self' in _input_split:
+        if 'self' in _input_split or 's' in _input_split:
             pids.add(os_getpid())
-            _input_split.remove('self')
+            try:
+                _input_split.remove('s')
+            except:
+                _input_split.remove('self')
         
         if len(pids) == 1:
             new_pid = pids.pop()
@@ -88,9 +91,17 @@ try:
                 # if there was an error during normal dump, there will be leftover files. With this functioon you can overwrite them.
                 criu.dump(allow_overwrite=False)
                 print(f'dumped anyway. {criu._last_dump_number}')
+            case 'service_dump' | 'sd':
+                # used to dump self with 'service_dump self'
+                criu.self_dump()
+                print(f'service dumped. {criu._last_dump_number} {os_getpid()}')
             case 'restore' | 'r':
                 criu.restore()
-                print('restored.')
+                print(f'restored. {os_getpid()}')
+            case 'self_restore' | 'sr':
+                criu.restore()
+                print(f'self restored (exiting). {os_getpid()}')
+                exit()
             case 'kill_restore' | 'kr':
                 criu.restore(kill_if_exists=True)
                 print('kill restored.')
