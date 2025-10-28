@@ -3,11 +3,13 @@
 
 > Ubuntu x86_64 is recommended, linux system is requried.
 
-## Install
+## Install (Ubuntu/Debian)
 
 ```bash
 # source env.sh
-pip install git+https://github.com/herheliuk/criu-python-api
+# mkdir ./criu-python-api/
+git clone https://github.com/herheliuk/criu-python-api ./criu-python-api/ --depth 1
+source ./criu-python-api/install.sh
 ```
 
 ## Usage
@@ -15,7 +17,7 @@ pip install git+https://github.com/herheliuk/criu-python-api
 main terminal
 ```bash
 # source env.sh
-sudo $(which python) ./examples/cli_knockdown.py
+sudo -E $(which python) ./examples/cli_knockdown.py
 ```
 
 secondary terminal
@@ -58,16 +60,4 @@ criu_api.restore(
     # kill_if_exists = False,
     # additional_args = None # list[str]
 )
-```
-
-## Install CRIU (Ubuntu/Debian)
-
-```bash
-git clone https://github.com/checkpoint-restore/criu ./criu/
-
-sudo bash ./criu/contrib/dependencies/apt-packages.sh
-
-sudo make -C ./criu/ install
-
-rm -rf ./criu/
 ```

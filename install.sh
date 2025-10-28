@@ -12,7 +12,7 @@ source "$script_dir/env.sh"
 
 cd "$script_dir"
 
-git clone https://github.com/checkpoint-restore/criu ./criu/
+git clone https://github.com/herheliuk/criu ./criu/
 
 sudo bash ./criu/contrib/dependencies/apt-packages.sh
 sudo make -C ./criu/ install || return 1

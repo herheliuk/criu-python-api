@@ -6,8 +6,44 @@ if __name__ != '__main__':
 import criu_api as criu
 from os import (
     getpid as os_getpid,
+    fork as os_fork,
+    waitpid as os_waitpid,
     system as os_system
 )
+from sys import exit as sys_exit
+
+_mem_file = 'mem.txt'
+
+def write_mem(info: str):
+    with open(_mem_file, 'w') as file:
+        file.write(info)
+        
+def pop_mem() -> str:
+    with open(_mem_file, 'r') as file:
+        info = file.read()
+    write_mem('')
+    return info
+
+child_pid = os_fork()
+if child_pid > 0:
+    os_waitpid(child_pid, 0)
+    while True:
+        
+        info = pop_mem()
+        
+        try:
+            int(info)
+        except:
+            exit()
+
+        try:
+            criu.restore(int(info))
+        except KeyboardInterrupt:
+            print("\nKeyboardInterrupt")
+            exit()
+        except Exception as e:
+            print(e)
+            exit()
 
 import readline
 
@@ -17,14 +53,12 @@ COMMANDS = [
     'dump_stop',
     'full_dump',
     'dump_anyway',
-    'service_dump',
     'restore',
     'kill_restore',
     'self_restore',
     'info',
     'clear',
-    'quit',
-    'self'
+    'quit'
 ]
 
 def completer(text, state):
@@ -52,18 +86,14 @@ try:
         
         for pid in pids:
             _input_split.remove(str(pid))
-    
-        if 'self' in _input_split or 's' in _input_split:
-            pids.add(os_getpid())
-            try:
-                _input_split.remove('s')
-            except:
-                _input_split.remove('self')
+        
+        new_pid = -1
         
         if len(pids) == 1:
             new_pid = pids.pop()
             criu.set_pid(new_pid)
-            print(f'pid is set to {new_pid}.')
+            if not 'sr' in _input and not 'self_restore' in _input:
+                print(f'pid is set to {new_pid}.')
         elif len(pids) > 1:
             raise ValueError(f'Too many PIDs: {pids}')
         
@@ -89,27 +119,23 @@ try:
                 print(f'full dumped. {criu._last_dump_number}')
             case 'dump_anyway' | 'da':
                 # if there was an error during normal dump, there will be leftover files. With this functioon you can overwrite them.
-                criu.dump(allow_overwrite=False)
+                criu.dump(allow_overwrite=True)
                 print(f'dumped anyway. {criu._last_dump_number}')
-            case 'service_dump' | 'sd':
-                # used to dump self with 'service_dump self'
-                criu.self_dump()
-                print(f'service dumped. {criu._last_dump_number} {os_getpid()}')
             case 'restore' | 'r':
                 criu.restore()
-                print(f'restored. {os_getpid()}')
             case 'self_restore' | 'sr':
-                criu.restore()
-                print(f'self restored (exiting). {os_getpid()}')
-                exit()
+                print(f'self restoring... {new_pid if new_pid >= 0 else criu._last_dump_number}')
+                write_mem(str(new_pid if new_pid >= 0 else criu._last_dump_number))
+                sys_exit()
             case 'kill_restore' | 'kr':
+                print('kill restoring...')
                 criu.restore(kill_if_exists=True)
-                print('kill restored.')
             case 'info' | 'i':
                 print(f'{os_getpid()=}\n{criu._pid=}\n{criu._min_dump_number=}\n{criu._last_dump_number=}\n{criu._track_mem=}')
             case 'quit' | 'q':
+                write_mem('exit')
                 exit()
             case _:
-                print('*int* or self (sets pid)\n' + '\n'.join(COMMANDS))
+                print('*int* (sets pid)\n' + '\n'.join(COMMANDS))
 except KeyboardInterrupt:
     print("\nKeyboardInterrupt")
