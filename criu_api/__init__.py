@@ -216,7 +216,7 @@ def dump(dump_number: int = None, leave_running = True, ensure_full_dump = False
 @ensure_dumps_dir
 def restore(dump_number: int = None, kill_if_exists = False, other_cmd_args: list[str] = None):
     '''Restores the specified dump into the current terminal session.'''
-    if not dump_number:
+    if dump_number is None:
         if _last_dump_number >= 0:
             dump_number = _last_dump_number
         else:
