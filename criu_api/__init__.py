@@ -37,7 +37,6 @@ from shutil import (
 from subprocess import run as subprocess_run
 from time import sleep
 
-from contextlib import contextmanager
 from pathlib import Path
 
 shell_job: bool = True
