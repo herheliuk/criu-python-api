@@ -12,12 +12,12 @@ source "$script_dir/env.sh"
 
 cd "$script_dir"
 
-git clone https://github.com/herheliuk/criu ./criu/
+git clone https://github.com/checkpoint-restore/criu --depth 1
 
 sudo bash ./criu/contrib/dependencies/apt-packages.sh
-sudo make -C ./criu/ install || return 1
+sudo make -C ./criu/ install -j$(nproc) || return 1
 
-pip install ./criu/lib/ ./
+pip install ./criu/lib/
 rm -rf ./*.egg-info ./build/
 
 cd "$orig_pwd"

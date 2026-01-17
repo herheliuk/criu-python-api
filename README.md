@@ -7,8 +7,7 @@
 
 ```bash
 # source env.sh
-# mkdir ./criu-python-api/
-git clone https://github.com/herheliuk/criu-python-api ./criu-python-api/ --depth 1
+git clone https://github.com/herheliuk/criu-python-api --depth 1
 source ./criu-python-api/install.sh
 ```
 
